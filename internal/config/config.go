@@ -23,9 +23,7 @@ type Config struct {
 }
 
 func LoadFromEnv() *Config {
-	if err := godotenv.Load(); err != nil {
-		fmt.Printf("Warning: .env file not found: %v\n", err)
-	}
+	_ = godotenv.Load()
 
 	cfg := &Config{
 		APIPort:            getEnvAsInt("API_PORT", 8000),
