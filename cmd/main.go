@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"urlshortener/internal/api"
-	"urlshortener/internal/config"
+	"urlshortener/config"
 	"urlshortener/internal/infrastructure"
 	"urlshortener/internal/logic"
 )

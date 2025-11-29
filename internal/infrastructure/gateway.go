@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"urlshortener/internal/config"
+	"urlshortener/config"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
