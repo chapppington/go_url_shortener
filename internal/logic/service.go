@@ -16,7 +16,7 @@ func NewService(repo *infrastructure.Repository) *Service {
 	return &Service{repo: repo}
 }
 
-func (s *Service) CreateShortURL(longURL string) (*infrastructure.ShortURL, error) {
+func (s *Service) CreateShortURL(longURL string) (*infrastructure.ShortURLModel, error) {
 	shortCode, err := s.generateShortCode()
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate short code: %w", err)
@@ -36,7 +36,7 @@ func (s *Service) CreateShortURL(longURL string) (*infrastructure.ShortURL, erro
 		}
 	}
 
-	shortURL := &infrastructure.ShortURL{
+	shortURL := &infrastructure.ShortURLModel{
 		LongUrl:   longURL,
 		ShortCode: shortCode,
 	}

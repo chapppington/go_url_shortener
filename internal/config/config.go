@@ -20,10 +20,6 @@ type Config struct {
 	PgAdminDefaultEmail    string
 	PgAdminDefaultPassword string
 	PgAdminPort            int
-
-	RedisHost        string
-	RedisPort        int
-	RedisInsightPort int
 }
 
 func LoadFromEnv() *Config {
@@ -41,9 +37,6 @@ func LoadFromEnv() *Config {
 		PgAdminDefaultEmail: getEnv("PGADMIN_DEFAULT_EMAIL", "admin@admin.com"),
 		PgAdminDefaultPassword: getEnv("PGADMIN_DEFAULT_PASSWORD", "admin"),
 		PgAdminPort:            getEnvAsInt("PGADMIN_PORT", 5050),
-		RedisHost:               getEnv("REDIS_HOST", "redis"),
-		RedisPort:               getEnvAsInt("REDIS_PORT", 6379),
-		RedisInsightPort:        getEnvAsInt("REDISINSIGHT_PORT", 5540),
 	}
 
 	return cfg

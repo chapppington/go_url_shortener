@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type ShortURL struct {
+type ShortURLModel struct {
 	ID        uuid.UUID `gorm:"type:uuid;primary_key;default:gen_random_uuid()"`
 	LongUrl string  `gorm:"type:text;not null"`
 	ShortCode   string  `gorm:"type:varchar(20);uniqueIndex;not null"`
@@ -14,6 +14,6 @@ type ShortURL struct {
 	UpdatedAt   time.Time
 }
 
-func (ShortURL) TableName() string {
+func (ShortURLModel) TableName() string {
 	return "short_urls"
 }

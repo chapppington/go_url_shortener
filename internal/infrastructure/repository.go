@@ -14,12 +14,12 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db: db}
 }
 
-func (r *Repository) Create(shortURL *ShortURL) error {
+func (r *Repository) Create(shortURL *ShortURLModel) error {
 	return r.db.Create(shortURL).Error
 }
 
-func (r *Repository) FindByShortCode(shortCode string) (*ShortURL, error) {
-	var shortURL ShortURL
+func (r *Repository) FindByShortCode(shortCode string) (*ShortURLModel, error) {
+	var shortURL ShortURLModel
 	err := r.db.Where("short_code = ?", shortCode).First(&shortURL).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
