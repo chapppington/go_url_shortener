@@ -6,7 +6,6 @@ ENV = --env-file .env
 EXEC = docker exec -it
 APP_FILE = docker_compose/app.yaml
 APP_CONTAINER = main-app
-MONITORING_FILE = docker_compose/monitoring.yaml
 
 .PHONY: all
 all:
@@ -15,16 +14,6 @@ all:
 .PHONY: all-down
 all-down:
 	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV} down
-
-.PHONY: all-with-monitoring
-all-with-monitoring:
-	${DC} -f ${MONITORING_FILE} ${ENV} up -d
-	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV} up --build -d
-
-.PHONY: all-with-monitoring-down
-all-with-monitoring-down:
-	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV} down
-	${DC} -f ${MONITORING_FILE} ${ENV} down
 
 .PHONY: app-logs
 app-logs:
