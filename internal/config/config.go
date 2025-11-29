@@ -2,46 +2,51 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
-	"time"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Env         string
-	StoragePath string
-	HTTPServer  HTTPServer
-}
+	APIPort int
 
-type HTTPServer struct {
-	Address     string
-	Timeout     time.Duration
-	IdleTimeout time.Duration
+	PostgresDB       string
+	PostgresUser     string
+	PostgresPassword string
+	PostgresHost     string
+	PostgresPort     int
+
+	PgAdminDefaultEmail    string
+	PgAdminDefaultPassword string
+	PgAdminPort            int
+
+	RedisHost        string
+	RedisPort        int
+	RedisInsightPort int
 }
 
 func LoadFromEnv() *Config {
 	if err := godotenv.Load(); err != nil {
-		fmt.Println("Warning: .env file not found, using environment variables")
+		fmt.Printf("Warning: .env file not found: %v\n", err)
 	}
 
-	storagePath := getEnv("STORAGE_PATH", "")
-	if storagePath == "" {
-		log.Fatal("required environment variable STORAGE_PATH is not set")
+	cfg := &Config{
+		APIPort:            getEnvAsInt("API_PORT", 8000),
+		PostgresDB:          getEnv("POSTGRES_DB", "url_shortener"),
+		PostgresUser:        getEnv("POSTGRES_USER", "postgres"),
+		PostgresPassword:    getEnv("POSTGRES_PASSWORD", "postgres"),
+		PostgresHost:        getEnv("POSTGRES_HOST", "postgres"),
+		PostgresPort:        getEnvAsInt("POSTGRES_PORT", 5432),
+		PgAdminDefaultEmail: getEnv("PGADMIN_DEFAULT_EMAIL", "admin@admin.com"),
+		PgAdminDefaultPassword: getEnv("PGADMIN_DEFAULT_PASSWORD", "admin"),
+		PgAdminPort:            getEnvAsInt("PGADMIN_PORT", 5050),
+		RedisHost:               getEnv("REDIS_HOST", "redis"),
+		RedisPort:               getEnvAsInt("REDIS_PORT", 6379),
+		RedisInsightPort:        getEnvAsInt("REDISINSIGHT_PORT", 5540),
 	}
 
-	config := &Config{
-		Env:         getEnv("ENV", "development"),
-		StoragePath: storagePath,
-		HTTPServer: HTTPServer{
-			Address:     getEnv("HTTP_ADDRESS", "localhost:8080"),
-			Timeout:     parseDuration(getEnv("HTTP_TIMEOUT", "4s")),
-			IdleTimeout: parseDuration(getEnv("HTTP_IDLE_TIMEOUT", "4s")),
-		},
-	}
-
-	return config
+	return cfg
 }
 
 func getEnv(key, defaultValue string) string {
@@ -51,10 +56,16 @@ func getEnv(key, defaultValue string) string {
 	return defaultValue
 }
 
-func parseDuration(s string) time.Duration {
-	duration, err := time.ParseDuration(s)
-	if err != nil {
-		panic(fmt.Sprintf("invalid duration format: %s", s))
+func getEnvAsInt(key string, defaultValue int) int {
+	valueStr := os.Getenv(key)
+	if valueStr == "" {
+		return defaultValue
 	}
-	return duration
+	value, err := strconv.Atoi(valueStr)
+	if err != nil {
+		fmt.Printf("Warning: invalid integer value for %s: %s, using default: %d\n", key, valueStr, defaultValue)
+		return defaultValue
+	}
+	return value
 }
+

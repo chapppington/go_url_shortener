@@ -11,5 +11,5 @@ func main() {
 
 	fmt.Println(cfg)
 
-	slog.Info("starting urlshortener", "env", cfg.Env)
+	slog.Info("starting urlshortener")
 }
