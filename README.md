@@ -1,6 +1,7 @@
 # URL Shortener
 
 Простой сервис для сокращения URL на Go с использованием GORM и PostgreSQL.
+TODO добавить Dependency injection, Entity, и завязаться на абстракциях, чтобы добавить тесты
 
 ## Требования
 
