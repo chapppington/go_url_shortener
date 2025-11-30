@@ -16,10 +16,6 @@ type Config struct {
 	PostgresPassword string
 	PostgresHost     string
 	PostgresPort     int
-
-	PgAdminDefaultEmail    string
-	PgAdminDefaultPassword string
-	PgAdminPort            int
 }
 
 func LoadFromEnv() *Config {
@@ -32,9 +28,6 @@ func LoadFromEnv() *Config {
 		PostgresPassword:    getEnv("POSTGRES_PASSWORD", "postgres"),
 		PostgresHost:        getEnv("POSTGRES_HOST", "postgres"),
 		PostgresPort:        getEnvAsInt("POSTGRES_PORT", 5432),
-		PgAdminDefaultEmail: getEnv("PGADMIN_DEFAULT_EMAIL", "admin@admin.com"),
-		PgAdminDefaultPassword: getEnv("PGADMIN_DEFAULT_PASSWORD", "admin"),
-		PgAdminPort:            getEnvAsInt("PGADMIN_PORT", 5050),
 	}
 
 	return cfg
