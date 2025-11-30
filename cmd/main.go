@@ -25,7 +25,7 @@ func main() {
 		slog.Error("failed to migrate database", "error", err)
 		os.Exit(1)
 	}
-
+	
 	repo := infrastructure.NewRepository(db)
 	service := logic.NewService(repo)
 	router := api.NewRouter(service)
