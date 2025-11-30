@@ -15,11 +15,11 @@ func NewHandler(service *logic.Service) *Handler {
 	return &Handler{service: service}
 }
 
-type CreateShortURLRequest struct {
+type CreateShortURLSchema struct {
 	URL string `json:"url"`
 }
 
-type CreateShortURLResponse struct {
+type CreateShortURLResponseSchema struct {
 	ShortCode string `json:"short_code"`
 	LongURL   string `json:"long_url"`
 }
@@ -30,7 +30,7 @@ func (h *Handler) CreateShortURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req CreateShortURLRequest
+	var req CreateShortURLSchema
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
@@ -49,7 +49,7 @@ func (h *Handler) CreateShortURL(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(CreateShortURLResponse{
+	json.NewEncoder(w).Encode(CreateShortURLResponseSchema{
 		ShortCode: shortURL.ShortCode,
 		LongURL:   shortURL.LongUrl,
 	})
