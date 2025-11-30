@@ -11,7 +11,7 @@ func NewRouter(service *logic.Service) http.Handler {
 	handler := NewHandler(service)
 
 	mux := http.NewServeMux()
-	
+
 	mux.HandleFunc("/api/v1/create", handler.CreateShortURL)
 	mux.HandleFunc("/api/v1/", func(w http.ResponseWriter, r *http.Request) {
 		shortCode := strings.TrimPrefix(r.URL.Path, "/api/v1/")
@@ -32,4 +32,3 @@ func NewRouter(service *logic.Service) http.Handler {
 
 	return mux
 }
-

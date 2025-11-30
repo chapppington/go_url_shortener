@@ -15,15 +15,6 @@ func NewHandler(service *logic.Service) *Handler {
 	return &Handler{service: service}
 }
 
-type CreateShortURLSchema struct {
-	URL string `json:"url"`
-}
-
-type CreateShortURLResponseSchema struct {
-	ShortCode string `json:"short_code"`
-	LongURL   string `json:"long_url"`
-}
-
 func (h *Handler) CreateShortURL(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -85,4 +76,3 @@ func (h *Handler) Redirect(w http.ResponseWriter, r *http.Request, shortCode str
 
 	http.Redirect(w, r, longURL, http.StatusFound)
 }
-
